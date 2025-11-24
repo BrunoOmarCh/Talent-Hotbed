@@ -54,7 +54,6 @@ export default function ChatPage() {
       console.error('Error cargando historial:', error);
       // Si hay error de autenticación, redirigir al login
       if (error instanceof Error && error.message === 'Usuario no autenticado') {
-        // Aquí puedes redirigir al home o mostrar modal de login
         console.log('Usuario no autenticado, redirigiendo...');
       }
     } finally {
@@ -100,16 +99,28 @@ export default function ChatPage() {
       )}
 
       {/* Contenedor principal del chat */}
-      <div className="flex-1 flex flex-col min-h-0"> {/* min-h-0 es crucial para el scroll */}
-        <div className={`flex-1 flex flex-col ${chatHistory.length === 0 ? 'justify-center items-center' : 'min-h-0'}`}>
-          
-          {chatHistory.length === 0 ? (
-            <div className="text-center px-4">
+      <div className="flex-1 flex flex-col min-h-0">
+        
+        {chatHistory.length === 0 ? (
+          // Estado cuando no hay mensajes - Layout centrado
+          <div className="flex-1 flex flex-col justify-center items-center p-6">
+            <div className="text-center px-4 w-full max-w-4xl">
               <h2 className="text-4xl md:text-[60px] mb-3 font-bold">¿Empezamos con el test?</h2>
               <p className="mb-10 text-lg">Descubre tu verdadera vocación en una conversación con el coach vocacional</p>
+              
+              {/* CommentBox en estado centrado - mismo ancho que en estado con mensajes */}
+              <div className="w-full max-w-4xl mx-auto">
+                <CommentBox 
+                  chatHistory={chatHistory} 
+                  setChatHistory={setChatHistory} 
+                />
+              </div>
             </div>
-          ) : (
-            // Contenedor del historial con scroll
+          </div>
+        ) : (
+          // Estado cuando hay mensajes - Layout normal con scroll
+          <>
+            {/* Contenedor del historial con scroll */}
             <div 
               ref={chatContainerRef}
               className="flex-1 overflow-y-auto p-6 space-y-6 min-h-0"
@@ -124,16 +135,16 @@ export default function ChatPage() {
                 </UserMessage>
               ))}
             </div>
-          )}
 
-          {/* CommentBox siempre en la parte inferior */}
-          <div className="p-6">
-            <CommentBox 
-              chatHistory={chatHistory} 
-              setChatHistory={setChatHistory} 
-            />
-          </div>
-        </div>
+            {/* CommentBox en estado con mensajes */}
+            <div className="p-6">
+              <CommentBox 
+                chatHistory={chatHistory} 
+                setChatHistory={setChatHistory} 
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
