@@ -6,14 +6,20 @@ interface CardProps {
 
 export default function Card({ imageUrl, name, shortDescription }: CardProps) {
   return (
-    <div className="bg-white rounded-3xl p-5 hover:-rotate-z-12 transition-all hover:shadow-[0_0_10px_5px_#A086FF] hover:shadow-[#A086FF] cursor-pointer">
-      <img
-        src={imageUrl}
+    <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+      <img 
+        src={imageUrl} 
         alt={name}
-        className="block rounded-3xl my-2 mx-auto h-[180px] w-full object-cover"
+        className="w-full h-48 object-cover"
+        onError={(e) => {
+          // Imagen de respaldo si falla la carga
+          e.currentTarget.src = "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500";
+        }}
       />
-      <h5 className="text-[18px] font-semibold mb-5">{name}</h5>
-      <p className="text-[13px]">{shortDescription}</p>
+      <div className="p-6">
+        <h3 className="text-xl font-bold mb-3">{name}</h3>
+        <p className="text-gray-600 text-sm leading-relaxed">{shortDescription}</p>
+      </div>
     </div>
   );
 }

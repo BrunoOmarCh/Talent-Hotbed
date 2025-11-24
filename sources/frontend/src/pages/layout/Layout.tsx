@@ -11,7 +11,7 @@ export default function Layout() {
         <div className="flex flex-col h-full">
             <Header setShowModal={setShowModal}/>
             <main className="grow">
-                <Outlet/>
+                <Outlet context={{ setShowModal }} />
             </main>
             {showModal && <ModalLogin setShowModal={setShowModal}/>}
         </div>

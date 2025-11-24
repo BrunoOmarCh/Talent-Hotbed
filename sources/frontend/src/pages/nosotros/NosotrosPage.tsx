@@ -6,17 +6,17 @@ export default function NosotrosPage() {
     {
       profilePhotoUrl: "/yo_mejorado.png",
       name: "Calongos Jara, Leonid",
-      position: "Backend Developer",
+      position: "Frontend Developer",
     },
     {
-      profilePhotoUrl: "/luis.png",
+      profilePhotoUrl: "/black.png",
       name: "Lorenzo Ramos Daniel",
-      position: "Frontend Developer",
+      position: "Backend Developer",
     },
     {
       profilePhotoUrl: "/bruno.png",
       name: "Jordan Rodas Panaifo",
-      position: "Full Stack Developer",
+      position: "Frontend Developer",
     },
     {
       profilePhotoUrl: "/laura.png",

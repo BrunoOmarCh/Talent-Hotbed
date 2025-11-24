@@ -1,9 +1,38 @@
 import UsersRecomendations from "./components/UsersRecomendations";
-import { Link } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
+import { useEffect } from "react";
+
 import mainSvgDesktop from "../../assets/svg-home/main-home.svg";
 import mainSvgMobile from "../../assets/svg-home/main-mobile-home.svg";
+import { isUserLoggedIn } from "../../components/ModalLogin"; // Ajusta la ruta según tu estructura
+
+type ContextType = {
+    setShowModal: (show: boolean) => void;
+};
+
 
 export default function HomePage() {
+    const { setShowModal } = useOutletContext<ContextType>();
+
+    const handleTestClick = (e: React.MouseEvent) => {
+        // Prevenir el comportamiento normal del Link
+        e.preventDefault();
+        
+        // Verificar si el usuario está logueado
+        if (isUserLoggedIn()) {
+            // Si está logueado, redirigir a /lab
+            window.location.href = '/lab';
+        } else {
+            // Si no está logueado, mostrar el modal
+            setShowModal(true);
+        }
+    };
+
+    useEffect(() => {
+        // Esto asegura que el estado se sincronice al cargar la página
+        window.dispatchEvent(new Event('checkAuthStatus'));
+    }, []);
+
     return (
         <div className="home-page h-full relative">
             {/* Imagen que cambia con el tamaño */}
@@ -35,15 +64,12 @@ export default function HomePage() {
                 </p>
 
                 <div className="flex space-x-2 justify-center md:justify-start">
-                    <Link to={'/lab'}
-                        className="px-8 py-3 text-[14px] lg:text-[20px] font-bold cursor-pointer flex items-center gap-2 font-inter rounded-full text-white bg-gradient-to-r opacity-[.72] hover:opacity-100 from-main-400 to-main-300 transition">
+                    <button
+                        onClick={handleTestClick}
+                        className="px-8 py-3 text-[14px] lg:text-[20px] font-bold cursor-pointer flex items-center gap-2 font-inter rounded-full text-white bg-gradient-to-r opacity-[.72] hover:opacity-100 from-main-400 to-main-300 transition"
+                    >
                         <i className="fa-solid fa-rocket" style={{ fontSize: '18px' }}></i>
                         Iniciar test
-                    </Link>
-                    <button
-                        className="px-8 py-3 cursor-pointer text-[14px] lg:text-[20px] flex items-center font-bold gap-2 font-inter rounded-full bg-white text-main-600 hover:bg-main-50 transition">
-                        <i className="fa-solid fa-paper-plane"></i>
-                        Ver demo
                     </button>
                 </div>
 
